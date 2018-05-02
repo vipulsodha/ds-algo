@@ -49,6 +49,7 @@ public class Solution {
 
             if (i == contact.length() - 1) {
                 previousNode.isEndOfWord = true;
+                previousNode.childCount++;
             } else {
                       previousNode.childCount++;
             }
@@ -62,6 +63,10 @@ public class Solution {
         Node previousNode = root;
 
         for (Character s: pattern.toCharArray()) {
+
+            if(Objects.isNull(previousNode)) {
+                break;
+            }
 
             if (previousNode.childrens.containsKey(s)) {
                 previousNode = previousNode.childrens.get(s);
