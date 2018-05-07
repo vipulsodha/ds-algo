@@ -1,4 +1,4 @@
-package quicksort;
+package quicksort1;
 
 public class Solution {
 }
