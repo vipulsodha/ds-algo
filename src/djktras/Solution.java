@@ -39,6 +39,7 @@ public class Solution {
 
         }
 
+
         boolean[] processedVertex = new boolean[n+1];
 
         while (minHeap.size() != 0) {
