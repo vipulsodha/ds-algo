@@ -41,24 +41,20 @@ public class Solution {
 
     static void add(int key) {
 
-        if (Objects.isNull(root)) {
-            root = createNodeFromKey(key);
-        } else {
 
-            insert(root, key);
+            root = insert(root, key);
 
-        }
 
     }
 
 
-    static int height(Node node) {
+    static int ht(Node node) {
 
         if (node == null) {
             return 0;
         }
 
-        return Math.max(height(node.right), height(node.left));
+        return node.ht;
 
     }
 
@@ -74,9 +70,9 @@ public class Solution {
 
         right.left = node;
 
-        node.height = Math.max(height(node.left), height(node.right)) + 1;
+        node.ht = Math.max(ht(node.left), ht(node.right)) + 1;
 
-        right.height = Math.max(height(right.left), height(right.right)) + 1;
+        right.ht = Math.max(ht(right.left), ht(right.right)) + 1;
 
         return  right;
 
@@ -97,9 +93,9 @@ public class Solution {
         left.right = node;
 
 
-        node.height = Math.max(height(node.left), height(node.right)) + 1;
+        node.ht = Math.max(ht(node.left), ht(node.right)) + 1;
 
-        left.height  = Math.max(height(left.left), height(left.right)) + 1;
+        left.ht  = Math.max(ht(left.left), ht(left.right)) + 1;
 
         return left;
 
@@ -109,7 +105,7 @@ public class Solution {
     static Node insert(Node node, int key) {
 
         if (node == null) {
-            return createNodeFromKey(key);
+            return  createNodeFromKey(key);
         }
 
         if (node.key >= key) {
@@ -119,10 +115,10 @@ public class Solution {
         }
 
 
-        node.height = Math.max(height(node.left), height(node.right)) + 1;
+        node.ht = Math.max(ht(node.left), ht(node.right)) + 1;
 
 
-        int balance = (node.right==null? 0: node.right.height) - (node.left == null? 0: node.left.height);
+        int balance = ht(node.right) - ht(node.left);
 
 
         // right right
@@ -207,7 +203,7 @@ class Node {
 
     Node left;
 
-    int height = 0;
+    int ht = 0;
 
     int key;
 
