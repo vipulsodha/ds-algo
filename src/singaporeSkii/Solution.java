@@ -1,72 +1,79 @@
 package singaporeSkii;
 
+import java.util.Arrays;
+import java.util.Map;
 import java.util.Scanner;
 
 /**
  * Created by vipulsodha on 24/06/18.
- * http://geeks.redmart.com/2015/01/07/skiing-in-singapore-a-coding-diversion/
  */
 public class Solution {
 
+    private static int[][] map;
+    private static int[][] memoize;
 
 
-    private static void  calculateEdgeWeights(int[][] edgeWeights, int n) {
+    private static int findLongestPath( int prevNode, int i, int j) {
 
-
-        for (int i = 1; i <=n ; i++) {
-
-            for (int j = 0; j <=n ; j++) {
-
-
-                if (edgeWeights[i][j] == 0 && i!=j) {
-
-                    edgeWeights[i][j] = Integer.MAX_VALUE;
-
-                }
-
-            }
-
+        if (i < 0 || i > map.length-1 || j > map[0].length -1 || j < 0) {
+            return 0;
         }
 
-        for (int k = 1; k <=n; k++) {
-            for (int i = 1; i <= n ; i++) {
-                for (int j = 1; j <=n ; j++) {
-
-                    if(edgeWeights[i][k] == Integer.MAX_VALUE ||  edgeWeights[k][j] == Integer.MAX_VALUE) {
-                        continue;
-                    }
-
-                    if (edgeWeights[i][j] > edgeWeights[i][k] + edgeWeights[k][j]) {
-                        edgeWeights[i][j] = edgeWeights[i][k] + edgeWeights[k][j];
-                    }
-                }
-            }
+        if (prevNode <= map[i][j]) {
+            return 0;
         }
+
+
+        if (memoize[i][j] != -1) {
+
+            return memoize[i][j];
+        }
+
+        int left = findLongestPath( map[i][j], i, j-1);
+        int right = findLongestPath( map[i][j], i, j+1);
+        int top = findLongestPath( map[i][j], i-1, j);
+        int bottom = findLongestPath( map[i][j], i+1, j);
+
+        memoize[i][j] = 1 + Math.max(Math.max(left, right), Math.max(top, bottom));
+
+        return memoize[i][j];
 
     }
-
-
 
     private static final Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
-        String[] roadNodesEdges = scanner.nextLine().split(" ");
-        int rows = Integer.parseInt(roadNodesEdges[0].trim());
-        int columns = Integer.parseInt(roadNodesEdges[1].trim());
 
-        int[][] edgeWeights = new int[rows][columns];
+        int max = -1;
 
+        int rows = scanner.nextInt();
+        int columns = scanner.nextInt();
+
+        map = new int[rows][columns];
+        memoize = new int[rows][columns];
 
         for (int i = 0; i < rows; i++) {
-//            int[] roadNodesEdges = scanner.nextLine().split(" ");
 
+            for (int j = 0; j < columns; j++) {
+
+                map[i][j] = scanner.nextInt();
+                memoize[i][j] = -1;
+
+            }
+        }
+
+        for (int i = 0; i < rows; i++) {
+
+            for (int j = 0; j < columns; j++) {
+
+                int tempMax = findLongestPath(Integer.MAX_VALUE, i, j);
+                max = tempMax>max ? tempMax : max;
+
+            }
         }
 
 
-
-        calculateEdgeWeights(edgeWeights, 1);
-
-        System.out.println("hello");
+        System.out.println(max);
 
         scanner.close();
     }
