@@ -33,9 +33,9 @@ public class Solution {
 
     static void add(int key) {
 
-//            root = insert(root, key);
+            root = insert(root, key);
 
-        root = nonBalanceInsert(root, key);
+//        root = nonBalanceInsert(root, key);
     }
 
 
@@ -162,7 +162,7 @@ public class Solution {
         add(5);
         add(15);
         add(20);
-        add(25);
+        add(18);
 //        System.out.printf("");
 
 //        levelOrderTraversal(root);
