@@ -30,8 +30,6 @@ public class Solution {
 
         while (nextLevelNodes.size() != 0) {
 
-
-
             int node = nextLevelNodes.poll();
 
             for (int i = 1 ; i <=n; i ++) {
