@@ -25,26 +25,28 @@ public class Solution {
 
     private static int dfs(int i, int n) {
 
-        visited[i]= true;
+        int oddChildCount = 0;
 
+        visited[i] = true;
 
         for (int j = 0; j < n; j++) {
 
-            if (graph[i][j] == 1 && visited[j] == false) {
+            if (!visited[j] && graph[i][j] == 1) {
+                int result = dfs(j, n);
 
-                 int result = dfs(j, n);
+                if ((result & 1) == 0) {
 
-                 if (result == 0) {
-                     return 1;
-                 }
+                    count ++;
 
-                 if ((result & 1) == 0) {
-                     count ++;
+                } else {
 
-                 }
+                    oddChildCount += result;
+
+                }
             }
-
         }
+
+        return oddChildCount + 1;
     }
 
 
@@ -59,10 +61,14 @@ public class Solution {
 
         for (int i = 0; i < treeEdges; i++) {
             String[] treeFromTo = scanner.nextLine().split(" ");
-            graph[Integer.parseInt(treeFromTo[0].trim())][Integer.parseInt(treeFromTo[1].trim())] = 1;
+            graph[Integer.parseInt(treeFromTo[1].trim()) - 1][Integer.parseInt(treeFromTo[0].trim()) - 1] = 1;
         }
 
+        dfs(0, treeNodes);
+
         // Write your code here.
+
+        System.out.println(count);
 
         scanner.close();
     }
